@@ -1,0 +1,7 @@
+﻿  guid.cpp
+  klient.cpp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 4 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  2.vcxproj -> D:\KSR\Lab01\x64\Release\2.exe
