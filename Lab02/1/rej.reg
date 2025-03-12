@@ -1,0 +1,7 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{23E86DCB-EE9F-44DE-B37B-D30BABD1B58C}]
+@="Klasa"
+[HKEY_CURRENT_USER\Software\Classes\CLSID\{23E86DCB-EE9F-44DE-B37B-D30BABD1B58C}\LocalServer32]
+@="D:\\KSR\\Lab02\\1\\server.exe"
+"ServerExecutable"="D:\\KSR\\Lab02\\1\\server.exe"
