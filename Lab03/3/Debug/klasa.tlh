@@ -1,0 +1,63 @@
+﻿// Created by Microsoft (R) C/C++ Compiler Version 14.43.34808.0 (48d0785b).
+//
+// D:\KSR\Lab03\3\Debug\klasa.tlh
+//
+// C++ source equivalent of Win32 type library klasa.tlb
+// compiler-generated file - DO NOT EDIT!
+
+#pragma once
+#pragma pack(push, 8)
+
+#include <comdef.h>
+
+//
+// Forward references and typedefs
+//
+
+struct __declspec(uuid("1b3f06b7-bd29-4d33-b398-5afd30691f64"))
+/* LIBID */ __Klasa;
+struct __declspec(uuid("d2767a1d-7fdb-4aa1-9a69-8399f02c64ef"))
+/* dual interface */ IKlasa;
+struct /* coclass */ Klasa;
+
+//
+// Smart pointer typedef declarations
+//
+
+_COM_SMARTPTR_TYPEDEF(IKlasa, __uuidof(IKlasa));
+
+//
+// Type library items
+//
+
+struct __declspec(uuid("d2767a1d-7fdb-4aa1-9a69-8399f02c64ef"))
+IKlasa : IDispatch
+{
+    //
+    // Wrapper methods for error-handling
+    //
+
+    unsigned long Test (
+        _bstr_t napis );
+
+    //
+    // Raw methods provided by interface
+    //
+
+      virtual HRESULT __stdcall raw_Test (
+        /*[in]*/ BSTR napis,
+        /*[out,retval]*/ unsigned long * pRetVal ) = 0;
+};
+
+struct __declspec(uuid("82c2867a-8e32-4bb7-922a-18398dda7f2c"))
+Klasa;
+    // interface _Object
+    // [ default ] interface IKlasa
+
+//
+// Wrapper method implementations
+//
+
+#include "D:\KSR\Lab03\3\Debug\klasa.tli"
+
+#pragma pack(pop)

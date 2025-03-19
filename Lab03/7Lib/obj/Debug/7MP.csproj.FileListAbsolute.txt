@@ -1,0 +1,13 @@
+D:\KSR\Lab03\7Lib\obj\Debug\7MP.csproj.AssemblyReference.cache
+D:\KSR\Lab03\7Lib\obj\Debug\Interop.WMPLib.dll
+D:\KSR\Lab03\7Lib\obj\Debug\AxInterop.WMPLib.dll
+D:\KSR\Lab03\7Lib\obj\Debug\7MP.csproj.ResolveComReference.cache
+D:\KSR\Lab03\7Lib\obj\Debug\_7Lib.UserControl1.resources
+D:\KSR\Lab03\7Lib\obj\Debug\7MP.csproj.GenerateResource.cache
+D:\KSR\Lab03\7Lib\obj\Debug\7MP.csproj.CoreCompileInputs.cache
+D:\KSR\Lab03\7Lib\obj\Debug\7Lib.dll
+D:\KSR\Lab03\7Lib\obj\Debug\7Lib.pdb
+D:\KSR\Lab03\7Lib\7Lib.dll
+D:\KSR\Lab03\7Lib\7Lib.pdb
+D:\KSR\Lab03\7Lib\Interop.WMPLib.dll
+D:\KSR\Lab03\7Lib\AxInterop.WMPLib.dll

@@ -1,0 +1,19 @@
+﻿// Created by Microsoft (R) C/C++ Compiler Version 14.43.34808.0 (48d0785b).
+//
+// D:\KSR\Lab03\3\Debug\klasa.tli
+//
+// Wrapper implementations for Win32 type library klasa.tlb
+// compiler-generated file - DO NOT EDIT!
+
+#pragma once
+
+//
+// interface IKlasa wrapper method implementations
+//
+
+inline unsigned long IKlasa::Test ( _bstr_t napis ) {
+    unsigned long _result = 0;
+    HRESULT _hr = raw_Test(napis, &_result);
+    if (FAILED(_hr)) _com_issue_errorex(_hr, this, __uuidof(this));
+    return _result;
+}

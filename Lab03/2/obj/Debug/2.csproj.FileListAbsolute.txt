@@ -1,0 +1,7 @@
+D:\KSR\Lab03\2\bin\Debug\2.exe.config
+D:\KSR\Lab03\2\bin\Debug\2.exe
+D:\KSR\Lab03\2\bin\Debug\2.pdb
+D:\KSR\Lab03\2\obj\Debug\2.csproj.AssemblyReference.cache
+D:\KSR\Lab03\2\obj\Debug\2.csproj.CoreCompileInputs.cache
+D:\KSR\Lab03\2\obj\Debug\2.exe
+D:\KSR\Lab03\2\obj\Debug\2.pdb

@@ -1,0 +1,6 @@
+D:\KSR\Lab03\5\obj\Debug\5.csproj.AssemblyReference.cache
+D:\KSR\Lab03\5\obj\Debug\5.csproj.CoreCompileInputs.cache
+D:\KSR\Lab03\5\obj\Debug\5.dll
+D:\KSR\Lab03\5\obj\Debug\5.pdb
+D:\KSR\Lab03\5\5.dll
+D:\KSR\Lab03\5\5.pdb
