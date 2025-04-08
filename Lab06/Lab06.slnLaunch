@@ -1,0 +1,23 @@
+[
+  {
+    "Name": "6",
+    "Projects": [
+      {
+        "Path": "6_Serwis1\\6_Serwis1.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "6_Serwis2\\6_Serwis2.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "6_Router\\6_Router.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "6_Klient\\6_Klient.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
