@@ -2,19 +2,22 @@
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 
+var repo = new InMemorySagaRepository<OrderState>();
+var machine = new OrderStateMachine();
+
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddMassTransit(config =>
         {
-            config.AddPublishMessageScheduler();
-            config.AddSagaStateMachine<OrderStateMachine, OrderState>()
-                .InMemoryRepository();
             config.UsingRabbitMq((context, cfg) =>
             {
                 cfg.Host("amqps://bdvlehqs:e6ORNoNXeD7FG-9uubLxF5BuYLUXoOpW@ostrich.lmq.cloudamqp.com/bdvlehqs");
-                cfg.UseDelayedMessageScheduler();
-                cfg.ConfigureEndpoints(context);
+                cfg.ReceiveEndpoint("OrderState", e =>
+                {
+                    e.StateMachineSaga(machine, repo);
+                });
+                cfg.UseInMemoryScheduler();
             });
         });
     })

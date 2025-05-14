@@ -14,13 +14,16 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
         Event(() => ClientRejection, x => x.CorrelateById(context => context.Message.OrderId));
         Event(() => WarehouseConfirmation, x => x.CorrelateById(context => context.Message.OrderId));
         Event(() => WarehouseRejection, x => x.CorrelateById(context => context.Message.OrderId));
-        Event(() => OrderTimeoutExpired, x => x.CorrelateById(context => context.Message.OrderId));
+        Schedule(() => OrderTimeout, x => x.TimeoutTokenId, s => { 
+            s.Delay = TimeSpan.FromSeconds(10);
+            s.Received = x => x.CorrelateById(c => c.Message.OrderId);
+        });
         
         Initially(
             When(OrderReceived)
                 .Then(Initialize)
-                // .Schedule(OrderTimeout, context => context.Init<OrderTimeout>(new { OrderId = context.Saga.CorrelationId }), _ => TimeSpan.FromSeconds(10))
                 .TransitionTo(AwaitingConfirmations)
+                .Schedule(OrderTimeout, context => new OrderTimeout { OrderId = context.Saga.CorrelationId })
                 .ThenAsync(SendRequests)
         );
         
@@ -31,7 +34,6 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
                 
             When(ClientRejection)
                 .TransitionTo(Rejected)
-                // .Unschedule(OrderTimeout)
                 .ThenAsync(SendRejectionToClient),
 
             When(WarehouseConfirmation)
@@ -40,12 +42,11 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
                 
             When(WarehouseRejection)
                 .TransitionTo(Rejected)
-                // .Unschedule(OrderTimeout)
                 .ThenAsync(SendRejectionToClient)
                 .TransitionTo(AwaitingConfirmations),
 
-            When(OrderTimeoutExpired)
-                .TransitionTo(TimedOut)
+            When(OrderTimeout!.Received)
+                .TransitionTo(Rejected)
                 .ThenAsync(HandleTimeout)
         );
     }
@@ -53,14 +54,12 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
     public State AwaitingConfirmations { get; private set; }
     public State Accepted { get; private set; }
     public State Rejected { get; private set; }
-    public State TimedOut { get; private set; }
     
     public Event<StartOrder> OrderReceived { get; private set; }
     public Event<Confirmation> ClientConfirmation { get; private set; }
     public Event<Rejection> ClientRejection { get; private set; }
     public Event<InventoryAvailable> WarehouseConfirmation { get; private set; }
     public Event<InventoryUnavailable> WarehouseRejection { get; private set; }
-    public Event<OrderTimeout> OrderTimeoutExpired { get; private set; }
     
     public Schedule<OrderState, OrderTimeout> OrderTimeout { get; private set; }
     
@@ -101,20 +100,6 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
         {
             context.Saga.CurrentState = nameof(Accepted);
             await SendAcceptanceToClient(context);
-            
-            // var previousTokenId = OrderTimeout.GetTokenId(context.Saga);
-            // if (previousTokenId.HasValue)
-            // {
-            //     var messageTokenId = context.GetSchedulingTokenId();
-            //     if (!messageTokenId.HasValue || previousTokenId.Value != messageTokenId.Value)
-            //     {
-            //         var schedulerContext = context.GetPayload<MessageSchedulerContext>();
-            //
-            //         await schedulerContext.CancelScheduledSend(context.ReceiveContext.InputAddress, previousTokenId.Value);
-            //
-            //         OrderTimeout.SetTokenId(context.Saga, null);
-            //     }
-            // }
         }
     }
     
