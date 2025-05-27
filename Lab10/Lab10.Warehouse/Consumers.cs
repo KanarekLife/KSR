@@ -3,15 +3,8 @@ using MassTransit;
 
 namespace Lab10.Warehouse
 {
-    public class InventoryRequestConsumer : IConsumer<InventoryRequest>
+    public class InventoryRequestConsumer(InventoryService inventoryService) : IConsumer<InventoryRequest>
     {
-        private readonly InventoryService _inventoryService;
-
-        public InventoryRequestConsumer(InventoryService inventoryService)
-        {
-            _inventoryService = inventoryService;
-        }
-
         public async Task Consume(ConsumeContext<InventoryRequest> context)
         {
             var orderId = context.Message.OrderId;
@@ -19,12 +12,12 @@ namespace Lab10.Warehouse
             
             Console.WriteLine($"Received inventory request for order {orderId} with quantity {quantity}");
             
-            var (available, _) = _inventoryService.GetInventoryStatus();
+            var (available, _) = inventoryService.GetInventoryStatus();
             Console.WriteLine($"Current inventory: {available} available items");
             
             if (available >= quantity)
             {
-                _inventoryService.TryReserveItems(quantity);
+                inventoryService.TryReserveItems(quantity);
                 await context.Publish(new InventoryAvailable { OrderId = orderId });
                 Console.WriteLine($"Inventory available for order {orderId}, reserved {quantity} items");
             }
@@ -36,21 +29,14 @@ namespace Lab10.Warehouse
         }
     }
 
-    public class OrderAcceptedConsumer : IConsumer<OrderAccepted>
+    public class OrderAcceptedConsumer(InventoryService inventoryService) : IConsumer<OrderAccepted>
     {
-        private readonly InventoryService _inventoryService;
-
-        public OrderAcceptedConsumer(InventoryService inventoryService)
-        {
-            _inventoryService = inventoryService;
-        }
-
         public Task Consume(ConsumeContext<OrderAccepted> context)
         {
             var orderId = context.Message.OrderId;
             var quantity = context.Message.Quantity;
             
-            _inventoryService.ConfirmReservation(quantity);
+            inventoryService.ConfirmReservation(quantity);
             
             Console.WriteLine($"Order {orderId} accepted, removed {quantity} reserved items from inventory");
             
@@ -58,21 +44,14 @@ namespace Lab10.Warehouse
         }
     }
 
-    public class OrderRejectedConsumer : IConsumer<OrderRejected>
+    public class OrderRejectedConsumer(InventoryService inventoryService) : IConsumer<OrderRejected>
     {
-        private readonly InventoryService _inventoryService;
-
-        public OrderRejectedConsumer(InventoryService inventoryService)
-        {
-            _inventoryService = inventoryService;
-        }
-
         public Task Consume(ConsumeContext<OrderRejected> context)
         {
             var orderId = context.Message.OrderId;
             var quantity = context.Message.Quantity;
             
-            _inventoryService.CancelReservation(quantity);
+            inventoryService.CancelReservation(quantity);
             
             Console.WriteLine($"Order {orderId} rejected, returned {quantity} items to available inventory");
             

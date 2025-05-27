@@ -127,7 +127,7 @@ public class OrderStateMachine : MassTransitStateMachine<OrderState>
         Console.WriteLine($"Order {context.Saga.CorrelationId} rejected, notification sent to client {context.Saga.ClientId}");
     }
     
-    private async Task HandleTimeout(BehaviorContext<OrderState, OrderTimeout> context)
+    private static async Task HandleTimeout(BehaviorContext<OrderState, OrderTimeout> context)
     {
         Console.WriteLine($"Order {context.Saga.CorrelationId} timed out after 10 seconds");
         await SendRejectionToClient(context);

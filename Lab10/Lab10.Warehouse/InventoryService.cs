@@ -2,7 +2,7 @@
 {
     public class InventoryService
     {
-        private int _availableItems = 10;
+        private int _availableItems = 0;
         private int _reservedItems = 0;
         
         private readonly object _lockObject = new();

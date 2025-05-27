@@ -8,7 +8,7 @@ var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
     {
         conf.Handler<Publ>(ctx =>
         {
-            if (ctx.Message.Number % 2 != 0)
+            if (ctx.Message.Number % 3 != 0)
             {
                 return Task.CompletedTask;
             }
@@ -33,5 +33,5 @@ var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
 
 await bus.StartAsync();
 
-Console.WriteLine($"[A] Press 'enter' to exit.");
+Console.WriteLine($"[B] Press 'enter' to exit.");
 Console.ReadLine();
