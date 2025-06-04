@@ -1,0 +1,55 @@
+services:
+  library-web:
+    build: Library.Web
+    container_name: library-web
+    ports:
+      - "9090:90"
+    environment:
+      - LibraryWebApiServiceHost=http://library-web-api:91
+      - Kestrel__Endpoints__Http__Url=http://+:90
+    depends_on:
+      - library-web-api
+    networks:
+      - library
+  library-web-api:
+    build: Library.WebApi
+    container_name: library-web-api
+    ports:
+      - "9091:91"
+    environment:
+      - RabbitMq__Username=guest
+      - RabbitMq__Password=guest
+      - RabbitMq__ServerAddress=rabbitmq://rabbitmq
+      - Kestrel__Endpoints__Http__Url=http://+:91
+    depends_on:
+      - rabbitmq
+    networks:
+      - library
+      - library-rabbitmq
+  library-notification-service:
+    build: Library.NotificationService2
+    container_name: library-notification-service
+    ports:
+      - "9092:80"
+    environment:
+      - RabbitMq__Username=guest
+      - RabbitMq__Password=guest
+      - RabbitMq__ServerAddress=rabbitmq://rabbitmq
+    depends_on:
+      - rabbitmq
+    networks:
+      - library
+      - library-rabbitmq
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    container_name: library-rabbitmq
+    networks:
+      - library-rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+networks:
+  library:
+    driver: bridge
+  library-rabbitmq:
+    driver: bridge
